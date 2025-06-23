@@ -1,0 +1,316 @@
+/* 发票预览容器 */
+.invoice-preview-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.invoice-preview-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.invoice-preview {
+  width: 210mm; /* A4 宽度 */
+  min-height: 297mm; /* A4 高度 */
+  background: white;
+  padding: 20mm;
+  box-sizing: border-box;
+  font-family: 'Times New Roman', serif;
+  font-size: 12pt;
+  line-height: 1.4;
+  color: #333;
+}
+
+/* 发票头部 */
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 20px;
+}
+
+.company-info {
+  flex: 1;
+}
+
+.company-name {
+  font-size: 24pt;
+  font-weight: bold;
+  margin: 0 0 5px 0;
+  color: #2c3e50;
+}
+
+.company-slogan {
+  font-size: 10pt;
+  color: #7f8c8d;
+  margin: 0 0 10px 0;
+  font-style: italic;
+}
+
+.company-abn {
+  font-size: 10pt;
+  font-weight: bold;
+  margin: 0 0 5px 0;
+}
+
+.company-address {
+  font-size: 10pt;
+  margin: 0 0 5px 0;
+}
+
+.company-contact {
+  font-size: 10pt;
+  margin: 0;
+}
+
+.invoice-title {
+  text-align: right;
+}
+
+.invoice-title h2 {
+  font-size: 36pt;
+  font-weight: bold;
+  margin: 0;
+  color: #2c3e50;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* 发票信息 */
+.invoice-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.client-info {
+  flex: 1;
+}
+
+.client-info h3 {
+  font-size: 14pt;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+}
+
+.client-name {
+  font-size: 12pt;
+  font-weight: bold;
+  margin: 0 0 5px 0;
+}
+
+.client-address {
+  font-size: 10pt;
+  margin: 0 0 5px 0;
+}
+
+.client-phone {
+  font-size: 10pt;
+  margin: 0;
+}
+
+.invoice-details {
+  flex: 1;
+  text-align: right;
+}
+
+.invoice-row {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.invoice-row .label {
+  font-weight: bold;
+  font-size: 10pt;
+  color: #2c3e50;
+}
+
+.invoice-row .value {
+  font-size: 10pt;
+}
+
+/* 明细表格 */
+.invoice-items {
+  margin-bottom: 30px;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.items-table th {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 10pt;
+  color: #2c3e50;
+}
+
+.items-table td {
+  border: 1px solid #ddd;
+  padding: 10px 8px;
+  font-size: 10pt;
+  vertical-align: top;
+}
+
+.item-name {
+  width: 40%;
+}
+
+.item-quantity {
+  width: 15%;
+  text-align: center;
+}
+
+.item-price {
+  width: 20%;
+  text-align: right;
+}
+
+.item-subtotal {
+  width: 25%;
+  text-align: right;
+}
+
+/* 总计 */
+.invoice-totals {
+  margin-bottom: 30px;
+  text-align: right;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 11pt;
+}
+
+.total-row .label {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.total-row .value {
+  font-weight: bold;
+}
+
+.total-final {
+  font-size: 14pt;
+  font-weight: bold;
+  border-top: 2px solid #333;
+  padding-top: 10px;
+  margin-top: 10px;
+  color: #2c3e50;
+}
+
+/* 页脚 */
+.invoice-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.payment-info {
+  flex: 1;
+}
+
+.payment-info h4 {
+  font-size: 12pt;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+}
+
+.payment-info p {
+  font-size: 10pt;
+  margin: 0 0 5px 0;
+}
+
+.thank-you {
+  flex: 1;
+  text-align: right;
+}
+
+.thank-you p {
+  font-size: 12pt;
+  font-weight: bold;
+  margin: 0;
+  color: #2c3e50;
+  font-style: italic;
+}
+
+/* 响应式设计 */
+@media (max-width: 767px) {
+  .invoice-preview {
+    width: 100%;
+    min-height: auto;
+    padding: 15mm;
+    font-size: 10pt;
+  }
+
+  .invoice-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .invoice-title {
+    text-align: left;
+    margin-top: 20px;
+  }
+
+  .invoice-title h2 {
+    font-size: 24pt;
+  }
+
+  .invoice-info {
+    flex-direction: column;
+  }
+
+  .invoice-details {
+    text-align: left;
+    margin-top: 20px;
+  }
+
+  .invoice-footer {
+    flex-direction: column;
+  }
+
+  .thank-you {
+    text-align: left;
+    margin-top: 20px;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .invoice-preview {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 20mm;
+    box-shadow: none;
+    border: none;
+  }
+} 

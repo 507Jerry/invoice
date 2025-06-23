@@ -1,31 +1,31 @@
 {
-  "name": "australian-invoice-generator",
+  "name": "invoice-generator",
   "version": "1.0.0",
-  "description": "澳洲发票模板生成器",
-  "private": true,
+  "description": "多语言专业发票生成器 - 支持中英文切换和GST计算",
+  "main": "index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
-    "html2canvas": "^1.4.1",
-    "i18next": "^25.2.1",
-    "i18next-browser-languagedetector": "^8.2.0",
-    "jspdf": "^2.5.1",
-    "lucide-react": "^0.263.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-i18next": "^15.5.3"
+    "react-scripts": "5.0.1",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.1"
   },
-  "devDependencies": {
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
-    "@vitejs/plugin-react": "^4.0.3",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.27",
-    "tailwindcss": "^3.3.3",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
-}
+} 
