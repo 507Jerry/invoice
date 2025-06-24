@@ -76,5 +76,10 @@ export const en = {
   smallScreen: 'Small Screen Mode',
   previewHidden: 'Preview Hidden',
   showPreview: 'Show Preview',
-  hidePreview: 'Hide Preview'
+  hidePreview: 'Hide Preview',
+  
+  // Note
+  note: 'Note',
+  notePlaceholder: 'Message, introduction or tips for your client (max 500 chars)',
+  noteCount: 'Typed'
 }; 

@@ -115,6 +115,14 @@ const InvoicePreview = ({ invoiceData, language, translations, isMobile, showPre
             </div>
           </div>
 
+          {/* 备注（Note） */}
+          {invoiceData.note && invoiceData.note.trim() && (
+            <div className="invoice-note">
+              <h4>{translations.note}</h4>
+              <div className="note-content">{invoiceData.note}</div>
+            </div>
+          )}
+
           {/* 明细表格 */}
           <div className="invoice-items">
             <table className="items-table">

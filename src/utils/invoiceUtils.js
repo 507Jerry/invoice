@@ -119,6 +119,7 @@ export const getDefaultInvoiceData = () => {
       accountNumber: '',
       showBpay: true,
       bpayNumber: ''
-    }
+    },
+    note: ''
   };
 }; 

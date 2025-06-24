@@ -51,8 +51,12 @@ export const generatePDF = (invoiceData, translations) => {
   doc.setFont('helvetica', 'normal');
   doc.text(`ABN: ${company.abn}`, margin, yPosition);
   yPosition += 6;
-  doc.text(company.address, margin, yPosition);
-  yPosition += 6;
+  // 修复多行地址重叠
+  const addressLines = (company.address || '').split(/\r?\n/);
+  addressLines.forEach(line => {
+    doc.text(line, margin, yPosition);
+    yPosition += 6;
+  });
   doc.text(`${company.phone} | ${company.email}`, margin, yPosition);
   yPosition += 20;
 
@@ -189,7 +193,7 @@ export const generatePDF = (invoiceData, translations) => {
     }
     
     // 最后一页添加总计
-    addTotalsAndFooter(doc, totals, includeGST, gstRate, translations, pageWidth, margin);
+    addTotalsAndFooter(doc, totals, includeGST, gstRate, translations, pageWidth, margin, invoiceData);
   } else {
     // 单页表格
     doc.autoTable({
@@ -215,7 +219,19 @@ export const generatePDF = (invoiceData, translations) => {
     });
 
     // 添加总计和页脚
-    addTotalsAndFooter(doc, totals, includeGST, gstRate, translations, pageWidth, margin);
+    addTotalsAndFooter(doc, totals, includeGST, gstRate, translations, pageWidth, margin, invoiceData);
+  }
+
+  // NOTE模块
+  if (invoiceData.note && invoiceData.note.trim()) {
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text(translations.note, margin, yPosition);
+    yPosition += 7;
+    doc.setFont('helvetica', 'normal');
+    const noteLines = doc.splitTextToSize(invoiceData.note, pageWidth - 2 * margin);
+    doc.text(noteLines, margin, yPosition);
+    yPosition += noteLines.length * 6 + 6;
   }
 
   // 保存PDF
@@ -234,7 +250,6 @@ const addHeader = (doc, company, pageWidth, margin) => {
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.text(`ABN: ${company.abn}`, margin, 15);
-  doc.text(company.name, pageWidth - margin - 30, 15, { align: 'right' });
 };
 
 /**
@@ -246,8 +261,9 @@ const addHeader = (doc, company, pageWidth, margin) => {
  * @param {object} translations - 翻译对象
  * @param {number} pageWidth - 页面宽度
  * @param {number} margin - 边距
+ * @param {object} invoiceData - 发票数据
  */
-const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, pageWidth, margin) => {
+const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, pageWidth, margin, invoiceData) => {
   const pageHeight = doc.internal.pageSize.getHeight();
   let yPosition = pageHeight - 80;
 

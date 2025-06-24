@@ -127,6 +127,19 @@ const InvoiceForm = ({ invoiceData, setInvoiceData, language, translations, isMo
     }));
   };
 
+  /**
+   * 更新备注
+   * @param {string} value - 备注内容
+   */
+  const updateNote = (value) => {
+    if (value.length <= 500) {
+      setInvoiceData(prev => ({
+        ...prev,
+        note: value
+      }));
+    }
+  };
+
   return (
     <div className="invoice-form">
       {/* 语言切换 */}
@@ -470,6 +483,26 @@ const InvoiceForm = ({ invoiceData, setInvoiceData, language, translations, isMo
               />
             </div>
           )}
+        </div>
+      </div>
+
+      {/* 备注（Note）设置 */}
+      <div className="form-section">
+        <div className="section-header">
+          <h3>{translations.note}</h3>
+        </div>
+        <div className="form-group full-width">
+          <textarea
+            value={invoiceData.note || ''}
+            onChange={e => updateNote(e.target.value)}
+            placeholder={translations.notePlaceholder}
+            rows={4}
+            maxLength={500}
+            style={{ resize: 'vertical' }}
+          />
+          <div style={{ textAlign: 'right', fontSize: 12, color: '#888' }}>
+            {translations.noteCount} {invoiceData.note?.length || 0}/500
+          </div>
         </div>
       </div>
     </div>

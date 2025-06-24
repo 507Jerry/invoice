@@ -76,5 +76,9 @@ export const zh = {
   smallScreen: '小屏幕模式',
   previewHidden: '预览已隐藏',
   showPreview: '显示预览',
-  hidePreview: '隐藏预览'
+  hidePreview: '隐藏预览',
+  
+  note: '备注',
+  notePlaceholder: '写给客户的说明、介绍或温馨提示（最多500字）',
+  noteCount: '已输入'
 }; 
