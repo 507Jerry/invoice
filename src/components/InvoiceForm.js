@@ -112,6 +112,21 @@ const InvoiceForm = ({ invoiceData, setInvoiceData, language, translations, isMo
     }));
   };
 
+  /**
+   * 更新支付信息
+   * @param {string} field - 字段名
+   * @param {any} value - 字段值
+   */
+  const updatePayment = (field, value) => {
+    setInvoiceData(prev => ({
+      ...prev,
+      payment: {
+        ...prev.payment,
+        [field]: value
+      }
+    }));
+  };
+
   return (
     <div className="invoice-form">
       {/* 语言切换 */}
@@ -384,6 +399,77 @@ const InvoiceForm = ({ invoiceData, setInvoiceData, language, translations, isMo
           <button type="button" className="add-item-btn" onClick={addItem}>
             + {translations.items}
           </button>
+        </div>
+      </div>
+
+      {/* 支付信息设置 */}
+      <div className="form-section">
+        <div className="section-header">
+          <h3>{translations.paymentInfo}</h3>
+        </div>
+        <div className="form-grid">
+          <div className="form-group full-width">
+            <label>
+              <input
+                type="checkbox"
+                checked={invoiceData.payment?.showBank}
+                onChange={e => updatePayment('showBank', e.target.checked)}
+              />
+              {translations.bankAccount}
+            </label>
+          </div>
+          {invoiceData.payment?.showBank && (
+            <>
+              <div className="form-group full-width">
+                <label>{translations.bankAccount}</label>
+                <input
+                  type="text"
+                  value={invoiceData.payment.bankAccount}
+                  onChange={e => updatePayment('bankAccount', e.target.value)}
+                  placeholder={translations.bankAccount}
+                />
+              </div>
+              <div className="form-group">
+                <label>{translations.bsb}</label>
+                <input
+                  type="text"
+                  value={invoiceData.payment.bsb}
+                  onChange={e => updatePayment('bsb', e.target.value)}
+                  placeholder={translations.bsb}
+                />
+              </div>
+              <div className="form-group">
+                <label>{translations.accountNumber}</label>
+                <input
+                  type="text"
+                  value={invoiceData.payment.accountNumber}
+                  onChange={e => updatePayment('accountNumber', e.target.value)}
+                  placeholder={translations.accountNumber}
+                />
+              </div>
+            </>
+          )}
+          <div className="form-group full-width">
+            <label>
+              <input
+                type="checkbox"
+                checked={invoiceData.payment?.showBpay}
+                onChange={e => updatePayment('showBpay', e.target.checked)}
+              />
+              BPAY
+            </label>
+          </div>
+          {invoiceData.payment?.showBpay && (
+            <div className="form-group full-width">
+              <label>BPAY Number</label>
+              <input
+                type="text"
+                value={invoiceData.payment.bpayNumber}
+                onChange={e => updatePayment('bpayNumber', e.target.value)}
+                placeholder="BPAY Number"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -48,7 +48,7 @@ const InvoicePreview = ({ invoiceData, language, translations, isMobile, showPre
     return null;
   }
 
-  const { company, client, invoice, items, settings } = invoiceData;
+  const { company, client, invoice, items, settings, payment } = invoiceData;
   const { includeGST, gstRate } = settings;
   const totals = calculateInvoiceTotal(items, includeGST, gstRate);
 
@@ -165,9 +165,18 @@ const InvoicePreview = ({ invoiceData, language, translations, isMobile, showPre
           <div className="invoice-footer">
             <div className="payment-info">
               <h4>{translations.paymentInfo}</h4>
-              <p>{translations.bankAccount}: Example Bank</p>
-              <p>{translations.bsb}: 123-456</p>
-              <p>{translations.accountNumber}: 12345678</p>
+              {payment?.showBank && (
+                <>
+                  <p>{translations.bankAccount}: {payment.bankAccount}</p>
+                  <p>{translations.bsb}: {payment.bsb}</p>
+                  <p>{translations.accountNumber}: {payment.accountNumber}</p>
+                </>
+              )}
+              {payment?.showBpay && (
+                <>
+                  <p>BPAY Number: {payment.bpayNumber}</p>
+                </>
+              )}
             </div>
             <div className="thank-you">
               <p>{translations.thankYou}</p>

@@ -111,6 +111,14 @@ export const getDefaultInvoiceData = () => {
     settings: {
       includeGST: true,
       gstRate: 0.1
+    },
+    payment: {
+      showBank: true,
+      bankAccount: '',
+      bsb: '',
+      accountNumber: '',
+      showBpay: true,
+      bpayNumber: ''
     }
   };
 }; 

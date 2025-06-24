@@ -281,9 +281,16 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
-  doc.text(`${translations.bankAccount}: Example Bank`, margin, yPosition + 8);
-  doc.text(`${translations.bsb}: 123-456`, margin, yPosition + 14);
-  doc.text(`${translations.accountNumber}: 12345678`, margin, yPosition + 20);
+  // 动态显示银行和BPAY
+  if (invoiceData.payment?.showBank) {
+    doc.text(`${translations.bankAccount}: ${invoiceData.payment.bankAccount}`, margin, yPosition + 8);
+    doc.text(`${translations.bsb}: ${invoiceData.payment.bsb}`, margin, yPosition + 14);
+    doc.text(`${translations.accountNumber}: ${invoiceData.payment.accountNumber}`, margin, yPosition + 20);
+    yPosition += 20;
+  }
+  if (invoiceData.payment?.showBpay) {
+    doc.text(`BPAY Number: ${invoiceData.payment.bpayNumber}`, margin, yPosition + 8);
+  }
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
