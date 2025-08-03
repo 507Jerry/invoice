@@ -431,7 +431,9 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text(translations.thankYou, pageWidth - margin - 20, yPosition + 20, { align: 'right' });
+  // 确保"谢谢"文字距离底部有足够距离
+  const thankYouY = Math.min(yPosition + 20, pageHeight - 30);
+  doc.text(translations.thankYou, pageWidth - margin - 20, thankYouY, { align: 'right' });
 }; 
 
 /**
