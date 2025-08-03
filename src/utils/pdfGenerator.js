@@ -437,7 +437,7 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   }
   
   // 右侧：总计信息（与左侧信息对齐）
-  const rightY = yPosition;
+  let rightY = yPosition;
   
   // 重新绘制总计信息，与左侧信息在同一行
   doc.setFontSize(10);
