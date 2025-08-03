@@ -28,10 +28,34 @@ export const generatePDF = (invoiceData, translations) => {
   // 添加页眉（每页都显示）
   addHeader(doc, company, pageWidth, margin);
 
-  // 发票标题
-  doc.setFontSize(24);
-  doc.setFont('helvetica', 'bold');
-  doc.text(translations.invoice, pageWidth - margin - 30, yPosition);
+  // Logo和发票标题
+  if (company.logo) {
+    try {
+      // 添加Logo（位置在发票标题左侧）
+      const logoWidth = 30;
+      const logoHeight = 20;
+      const logoX = margin;
+      const logoY = yPosition - 5;
+      
+      doc.addImage(company.logo, 'JPEG', logoX, logoY, logoWidth, logoHeight);
+      
+      // 发票标题位置调整（为Logo留出空间）
+      doc.setFontSize(24);
+      doc.setFont('helvetica', 'bold');
+      doc.text(translations.invoice, pageWidth - margin - 30, yPosition);
+    } catch (logoError) {
+      console.error('Logo添加失败:', logoError);
+      // 如果Logo添加失败，正常显示标题
+      doc.setFontSize(24);
+      doc.setFont('helvetica', 'bold');
+      doc.text(translations.invoice, pageWidth - margin - 30, yPosition);
+    }
+  } else {
+    // 没有Logo时正常显示标题
+    doc.setFontSize(24);
+    doc.setFont('helvetica', 'bold');
+    doc.text(translations.invoice, pageWidth - margin - 30, yPosition);
+  }
   yPosition += 20;
 
   // 公司信息

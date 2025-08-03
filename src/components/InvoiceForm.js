@@ -29,6 +29,40 @@ const InvoiceForm = ({ invoiceData, setInvoiceData, language, translations, isMo
   };
 
   /**
+   * 处理Logo上传
+   * @param {Event} event - 文件上传事件
+   */
+  const handleLogoUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // 检查文件类型
+      if (!file.type.startsWith('image/')) {
+        alert('请选择图片文件（PNG、JPG、SVG等）');
+        return;
+      }
+      
+      // 检查文件大小（限制为2MB）
+      if (file.size > 2 * 1024 * 1024) {
+        alert('图片文件大小不能超过2MB');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        updateCompany('logo', e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  /**
+   * 删除Logo
+   */
+  const handleLogoRemove = () => {
+    updateCompany('logo', null);
+  };
+
+  /**
    * 更新客户信息
    * @param {string} field - 字段名
    * @param {string} value - 字段值
@@ -222,6 +256,44 @@ const InvoiceForm = ({ invoiceData, setInvoiceData, language, translations, isMo
               onChange={(e) => updateCompany('slogan', e.target.value)}
               placeholder={translations.slogan}
             />
+          </div>
+          
+          {/* Logo上传区域 */}
+          <div className="form-group full-width">
+            <label>{translations.logo}</label>
+            <div className="logo-upload-container">
+              {invoiceData.company.logo ? (
+                <div className="logo-preview">
+                  <img 
+                    src={invoiceData.company.logo} 
+                    alt="Company Logo" 
+                    className="logo-image"
+                  />
+                  <button 
+                    type="button" 
+                    className="logo-remove-btn"
+                    onClick={handleLogoRemove}
+                    title={translations.removeLogo}
+                  >
+                    ×
+                  </button>
+                </div>
+              ) : (
+                <div className="logo-upload-area">
+                  <input
+                    type="file"
+                    id="logo-upload"
+                    accept="image/*"
+                    onChange={handleLogoUpload}
+                    style={{ display: 'none' }}
+                  />
+                  <label htmlFor="logo-upload" className="logo-upload-label">
+                    <div className="logo-upload-icon">📷</div>
+                    <div className="logo-upload-text">{translations.logoPlaceholder}</div>
+                  </label>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -91,7 +91,8 @@ export const getDefaultInvoiceData = () => {
       address: '',
       phone: '',
       email: '',
-      slogan: ''
+      slogan: '',
+      logo: null
     },
     client: {
       name: '',

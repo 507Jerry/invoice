@@ -18,6 +18,10 @@ export const en = {
   phone: 'Phone',
   email: 'Email',
   slogan: 'Slogan (Optional)',
+  logo: 'Company Logo',
+  uploadLogo: 'Upload Logo',
+  removeLogo: 'Remove Logo',
+  logoPlaceholder: 'Click to upload company logo',
   
   // Client information
   clientInfo: 'Client Information',

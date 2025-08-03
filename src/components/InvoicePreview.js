@@ -75,6 +75,15 @@ const InvoicePreview = ({ invoiceData, language, translations, isMobile, showPre
               </p>
             </div>
             <div className="invoice-title">
+              {company.logo && (
+                <div className="company-logo">
+                  <img 
+                    src={company.logo} 
+                    alt="Company Logo" 
+                    className="logo-image"
+                  />
+                </div>
+              )}
               <h2>{translations.invoice}</h2>
             </div>
           </div>

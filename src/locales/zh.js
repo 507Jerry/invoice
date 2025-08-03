@@ -18,6 +18,10 @@ export const zh = {
   phone: '电话',
   email: '邮箱',
   slogan: '口号（可选）',
+  logo: '公司Logo',
+  uploadLogo: '上传Logo',
+  removeLogo: '删除Logo',
+  logoPlaceholder: '点击上传公司Logo',
   
   // 客户信息
   clientInfo: '客户信息',
