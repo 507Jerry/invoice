@@ -396,43 +396,78 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   const totalText = `${translations.total}: ${formatCurrency(totals.total)}`;
   doc.text(totalText, totalX, yPosition, { align: 'right' });
 
-  // NOTE模块（放在payment信息之前）
+  // 简洁分栏布局：NOTE和Payment信息与总计信息在同一行
   yPosition += 20;
-  if (invoiceData.note && invoiceData.note.trim()) {
-    doc.setFontSize(11);
-    doc.setFont('helvetica', 'bold');
-    doc.text(translations.note, margin, yPosition);
-    yPosition += 7;
-    doc.setFont('helvetica', 'normal');
-    const noteLines = doc.splitTextToSize(invoiceData.note, pageWidth - 2 * margin);
-    doc.text(noteLines, margin, yPosition);
-    yPosition += noteLines.length * 6 + 6;
-  }
-
-  // 页脚 - 调整位置避免与NOTE重叠，并与边缘保持距离
-  yPosition = Math.max(yPosition + 15, pageHeight - 100);
   
+  // 左侧：NOTE和Payment信息
+  let leftY = yPosition;
+  
+  // NOTE信息
+  if (invoiceData.note && invoiceData.note.trim()) {
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(translations.note, margin, leftY);
+    leftY += 6;
+    doc.setFont('helvetica', 'normal');
+    const noteLines = doc.splitTextToSize(invoiceData.note, (pageWidth - 2 * margin) * 0.4);
+    doc.text(noteLines, margin, leftY);
+    leftY += noteLines.length * 5 + 8;
+  }
+  
+  // Payment信息
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text(translations.paymentInfo, margin, yPosition);
+  doc.text(translations.paymentInfo, margin, leftY);
+  leftY += 6;
   
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
   // 动态显示银行和BPAY
   if (invoiceData.payment?.showBank) {
-    doc.text(`${translations.bankAccount}: ${invoiceData.payment.bankAccount}`, margin, yPosition + 8);
-    doc.text(`${translations.bsb}: ${invoiceData.payment.bsb}`, margin, yPosition + 14);
-    doc.text(`${translations.accountNumber}: ${invoiceData.payment.accountNumber}`, margin, yPosition + 20);
-    yPosition += 20;
+    doc.text(`${translations.bankAccount}: ${invoiceData.payment.bankAccount}`, margin, leftY);
+    leftY += 5;
+    doc.text(`${translations.bsb}: ${invoiceData.payment.bsb}`, margin, leftY);
+    leftY += 5;
+    doc.text(`${translations.accountNumber}: ${invoiceData.payment.accountNumber}`, margin, leftY);
+    leftY += 5;
   }
   if (invoiceData.payment?.showBpay) {
-    doc.text(`BPAY Number: ${invoiceData.payment.bpayNumber}`, margin, yPosition + 8);
+    doc.text(`BPAY Number: ${invoiceData.payment.bpayNumber}`, margin, leftY);
+    leftY += 5;
   }
+  
+  // 右侧：总计信息（与左侧信息对齐）
+  const rightY = yPosition;
+  
+  // 重新绘制总计信息，与左侧信息在同一行
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  
+  if (includeGST) {
+    const subtotalText = `${translations.subtotal}: ${formatCurrency(totals.subtotal)}`;
+    doc.text(subtotalText, totalX, rightY, { align: 'right' });
+    rightY += 8;
+    
+    const gstText = `${translations.gst} (${(gstRate * 100).toFixed(0)}%): ${formatCurrency(totals.gst)}`;
+    doc.text(gstText, totalX, rightY, { align: 'right' });
+    rightY += 8;
+  }
+  
+  doc.setFontSize(12);
+  doc.setFont('helvetica', 'bold');
+  const totalTextRight = `${translations.total}: ${formatCurrency(totals.total)}`;
+  doc.text(totalTextRight, totalX, rightY, { align: 'right' });
+  
+  // 计算最终位置用于"谢谢"文字
+  const finalY = Math.max(leftY, rightY + 8);
+  
+  // 页脚 - 确保距离底部有足够距离
+  const footerY = Math.max(finalY + 20, pageHeight - 60);
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   // 确保"谢谢"文字距离底部有足够距离
-  const thankYouY = Math.min(yPosition + 20, pageHeight - 30);
+  const thankYouY = Math.min(footerY, pageHeight - 30);
   doc.text(translations.thankYou, pageWidth - margin - 20, thankYouY, { align: 'right' });
 }; 
 
