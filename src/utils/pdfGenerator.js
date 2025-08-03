@@ -234,9 +234,65 @@ export const generatePDF = (invoiceData, translations) => {
     yPosition += noteLines.length * 6 + 6;
   }
 
-  // 保存PDF
+  // 保存PDF - 使用iframe兼容的方式
   const fileName = `invoice_${invoice.number.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
-  doc.save(fileName);
+  downloadPDF(doc, fileName);
+};
+
+/**
+ * 下载PDF文件 - iframe兼容版本
+ * @param {object} doc - PDF文档对象
+ * @param {string} fileName - 文件名
+ */
+const downloadPDF = (doc, fileName) => {
+  try {
+    // 方法1: 尝试直接保存（适用于非iframe环境）
+    doc.save(fileName);
+  } catch (error) {
+    console.log('直接保存失败，尝试使用blob方式下载...');
+    
+    try {
+      // 方法2: 使用blob URL方式（适用于iframe环境）
+      const pdfBlob = doc.output('blob');
+      const blobUrl = URL.createObjectURL(pdfBlob);
+      
+      // 创建下载链接
+      const downloadLink = document.createElement('a');
+      downloadLink.href = blobUrl;
+      downloadLink.download = fileName;
+      downloadLink.style.display = 'none';
+      
+      // 添加到DOM并触发下载
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      
+      // 清理
+      document.body.removeChild(downloadLink);
+      setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+      }, 100);
+      
+    } catch (blobError) {
+      console.error('Blob下载也失败:', blobError);
+      
+      // 方法3: 使用data URL方式
+      try {
+        const pdfDataUrl = doc.output('dataurlstring');
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pdfDataUrl;
+        downloadLink.download = fileName;
+        downloadLink.style.display = 'none';
+        
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        
+      } catch (dataUrlError) {
+        console.error('所有下载方法都失败:', dataUrlError);
+        alert('PDF下载失败，请检查浏览器设置或尝试在新窗口中打开应用。');
+      }
+    }
+  }
 };
 
 /**
@@ -312,4 +368,76 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   doc.text(translations.thankYou, pageWidth - margin - 30, yPosition + 20, { align: 'right' });
+}; 
+
+/**
+ * 检测是否在iframe中运行
+ * @returns {boolean} 是否在iframe中
+ */
+export const isInIframe = () => {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true; // 如果无法访问top，说明在iframe中
+  }
+};
+
+/**
+ * 在新窗口中打开PDF（iframe备用方案）
+ * @param {object} doc - PDF文档对象
+ * @param {string} fileName - 文件名
+ */
+export const openPDFInNewWindow = (doc, fileName) => {
+  try {
+    const pdfDataUrl = doc.output('dataurlstring');
+    const newWindow = window.open('', '_blank');
+    
+    if (newWindow) {
+      newWindow.document.write(`
+        <html>
+          <head>
+            <title>${fileName}</title>
+            <style>
+              body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
+              .download-btn {
+                background: #3498db;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-bottom: 20px;
+              }
+              .download-btn:hover {
+                background: #2980b9;
+              }
+              iframe {
+                width: 100%;
+                height: calc(100vh - 100px);
+                border: 1px solid #ddd;
+              }
+            </style>
+          </head>
+          <body>
+            <button class="download-btn" onclick="downloadPDF()">下载PDF</button>
+            <iframe src="${pdfDataUrl}"></iframe>
+            <script>
+              function downloadPDF() {
+                const link = document.createElement('a');
+                link.href = '${pdfDataUrl}';
+                link.download = '${fileName}';
+                link.click();
+              }
+            </script>
+          </body>
+        </html>
+      `);
+      newWindow.document.close();
+    } else {
+      alert('无法打开新窗口，请允许弹出窗口或手动复制PDF链接。');
+    }
+  } catch (error) {
+    console.error('在新窗口中打开PDF失败:', error);
+    alert('无法在新窗口中打开PDF，请尝试直接访问应用。');
+  }
 }; 
