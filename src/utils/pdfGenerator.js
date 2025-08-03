@@ -410,7 +410,7 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   }
 
   // 页脚 - 调整位置避免与NOTE重叠，并与边缘保持适当距离
-  yPosition = Math.max(yPosition + 20, pageHeight - 90);
+  yPosition = Math.max(yPosition + 15, pageHeight - 70);
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
@@ -432,7 +432,7 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   // 确保"谢谢"文字距离底部有足够距离
-  const thankYouY = Math.min(yPosition + 20, pageHeight - 40);
+  const thankYouY = Math.min(yPosition + 15, pageHeight - 30);
   doc.text(translations.thankYou, pageWidth - margin - 20, thankYouY, { align: 'right' });
 }; 
 
