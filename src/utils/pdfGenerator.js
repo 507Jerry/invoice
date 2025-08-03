@@ -396,38 +396,56 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   const totalText = `${translations.total}: ${formatCurrency(totals.total)}`;
   doc.text(totalText, totalX, yPosition, { align: 'right' });
 
-  // NOTE模块（放在payment信息之前）
-  yPosition += 20;
+  // NOTE模块（与Total Price对齐）
+  const noteStartY = yPosition - 20; // 与Total Price在同一水平线
   if (invoiceData.note && invoiceData.note.trim()) {
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.text(translations.note, margin, yPosition);
-    yPosition += 7;
+    doc.text(translations.note, margin, noteStartY);
+    let noteY = noteStartY + 7;
     doc.setFont('helvetica', 'normal');
     const noteLines = doc.splitTextToSize(invoiceData.note, pageWidth - 2 * margin);
-    doc.text(noteLines, margin, yPosition);
-    yPosition += noteLines.length * 6 + 6;
+    doc.text(noteLines, margin, noteY);
+    noteY += noteLines.length * 6 + 6;
+    
+    // Payment信息紧跟在NOTE后面
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(translations.paymentInfo, margin, noteY);
+    
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    // 动态显示银行和BPAY
+    if (invoiceData.payment?.showBank) {
+      doc.text(`${translations.bankAccount}: ${invoiceData.payment.bankAccount}`, margin, noteY + 8);
+      doc.text(`${translations.bsb}: ${invoiceData.payment.bsb}`, margin, noteY + 14);
+      doc.text(`${translations.accountNumber}: ${invoiceData.payment.accountNumber}`, margin, noteY + 20);
+      noteY += 20;
+    }
+    if (invoiceData.payment?.showBpay) {
+      doc.text(`BPAY Number: ${invoiceData.payment.bpayNumber}`, margin, noteY + 8);
+    }
+  } else {
+    // 如果没有NOTE，Payment信息直接与Total Price对齐
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(translations.paymentInfo, margin, noteStartY);
+    
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    // 动态显示银行和BPAY
+    if (invoiceData.payment?.showBank) {
+      doc.text(`${translations.bankAccount}: ${invoiceData.payment.bankAccount}`, margin, noteStartY + 8);
+      doc.text(`${translations.bsb}: ${invoiceData.payment.bsb}`, margin, noteStartY + 14);
+      doc.text(`${translations.accountNumber}: ${invoiceData.payment.accountNumber}`, margin, noteStartY + 20);
+    }
+    if (invoiceData.payment?.showBpay) {
+      doc.text(`BPAY Number: ${invoiceData.payment.bpayNumber}`, margin, noteStartY + 8);
+    }
   }
 
   // 页脚 - 调整位置避免与NOTE重叠，并与边缘保持适当距离
   yPosition = Math.max(yPosition + 15, pageHeight - 70);
-  
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'bold');
-  doc.text(translations.paymentInfo, margin, yPosition);
-  
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'normal');
-  // 动态显示银行和BPAY
-  if (invoiceData.payment?.showBank) {
-    doc.text(`${translations.bankAccount}: ${invoiceData.payment.bankAccount}`, margin, yPosition + 8);
-    doc.text(`${translations.bsb}: ${invoiceData.payment.bsb}`, margin, yPosition + 14);
-    doc.text(`${translations.accountNumber}: ${invoiceData.payment.accountNumber}`, margin, yPosition + 20);
-    yPosition += 20;
-  }
-  if (invoiceData.payment?.showBpay) {
-    doc.text(`BPAY Number: ${invoiceData.payment.bpayNumber}`, margin, yPosition + 8);
-  }
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
