@@ -245,14 +245,13 @@ export const generatePDF = (invoiceData, translations) => {
  * @param {string} fileName - 文件名
  */
 const downloadPDF = (doc, fileName) => {
-  try {
-    // 方法1: 尝试直接保存（适用于非iframe环境）
-    doc.save(fileName);
-  } catch (error) {
-    console.log('直接保存失败，尝试使用blob方式下载...');
-    
+  // 检测是否在iframe中
+  const inIframe = isInIframe();
+  
+  if (inIframe) {
+    console.log('在iframe中，使用blob方式下载...');
+    // 在iframe中直接使用blob方式
     try {
-      // 方法2: 使用blob URL方式（适用于iframe环境）
       const pdfBlob = doc.output('blob');
       const blobUrl = URL.createObjectURL(pdfBlob);
       
@@ -273,9 +272,9 @@ const downloadPDF = (doc, fileName) => {
       }, 100);
       
     } catch (blobError) {
-      console.error('Blob下载也失败:', blobError);
+      console.error('Blob下载失败:', blobError);
       
-      // 方法3: 使用data URL方式
+      // 备用方案：使用data URL
       try {
         const pdfDataUrl = doc.output('dataurlstring');
         const downloadLink = document.createElement('a');
@@ -288,8 +287,44 @@ const downloadPDF = (doc, fileName) => {
         document.body.removeChild(downloadLink);
         
       } catch (dataUrlError) {
-        console.error('所有下载方法都失败:', dataUrlError);
-        alert('PDF下载失败，请检查浏览器设置或尝试在新窗口中打开应用。');
+        console.error('Data URL下载也失败:', dataUrlError);
+        
+        // 最后方案：在新窗口中打开
+        try {
+          const pdfDataUrl = doc.output('dataurlstring');
+          const newWindow = window.open(pdfDataUrl, '_blank');
+          if (!newWindow) {
+            alert('无法打开新窗口，请允许弹出窗口或直接访问应用。');
+          }
+        } catch (finalError) {
+          console.error('所有下载方法都失败:', finalError);
+          alert('PDF下载失败。请直接访问应用地址：' + window.location.href);
+        }
+      }
+    }
+  } else {
+    // 不在iframe中，使用标准方式
+    try {
+      doc.save(fileName);
+    } catch (error) {
+      console.error('标准保存失败:', error);
+      // 如果标准方式失败，也尝试blob方式
+      try {
+        const pdfBlob = doc.output('blob');
+        const blobUrl = URL.createObjectURL(pdfBlob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = blobUrl;
+        downloadLink.download = fileName;
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        setTimeout(() => {
+          URL.revokeObjectURL(blobUrl);
+        }, 100);
+      } catch (blobError) {
+        console.error('备用下载也失败:', blobError);
+        alert('PDF下载失败，请重试。');
       }
     }
   }

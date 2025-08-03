@@ -70,25 +70,10 @@ const App = () => {
       if (inIframe) {
         console.log('检测到应用运行在iframe中，使用兼容模式');
         
-        // 在iframe中，提示用户
-        const choice = confirm(
-          '检测到您在iframe中运行应用。\n\n' +
-          'PDF下载可能被阻止。\n' +
-          '点击"确定"尝试下载，或点击"取消"获取解决方案。'
-        );
+        // 在iframe中，直接尝试下载（不再询问用户）
+        generatePDF(invoiceData, translations);
         
-        if (choice) {
-          // 尝试直接下载
-          generatePDF(invoiceData, translations);
-        } else {
-          // 提供解决方案
-          alert(
-            '解决方案：\n\n' +
-            '1. 直接访问应用地址：' + window.location.href + '\n\n' +
-            '2. 或者在新窗口中打开应用\n\n' +
-            '3. 检查浏览器是否允许下载'
-          );
-        }
+        // 如果下载失败，会在downloadPDF函数中处理
       } else {
         // 不在iframe中，正常生成
         generatePDF(invoiceData, translations);
