@@ -250,18 +250,6 @@ export const generatePDF = (invoiceData, translations) => {
     addTotalsAndFooter(doc, totals, includeGST, gstRate, translations, pageWidth, margin, invoiceData);
   }
 
-  // NOTE模块
-  if (invoiceData.note && invoiceData.note.trim()) {
-    doc.setFontSize(11);
-    doc.setFont('helvetica', 'bold');
-    doc.text(translations.note, margin, yPosition);
-    yPosition += 7;
-    doc.setFont('helvetica', 'normal');
-    const noteLines = doc.splitTextToSize(invoiceData.note, pageWidth - 2 * margin);
-    doc.text(noteLines, margin, yPosition);
-    yPosition += noteLines.length * 6 + 6;
-  }
-
   // 保存PDF - 使用iframe兼容的方式
   const fileName = `invoice_${invoice.number.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
   downloadPDF(doc, fileName);
@@ -407,6 +395,19 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   doc.setFont('helvetica', 'bold');
   const totalText = `${translations.total}: ${formatCurrency(totals.total)}`;
   doc.text(totalText, totalX, yPosition, { align: 'right' });
+
+  // NOTE模块（放在payment信息之前）
+  yPosition += 20;
+  if (invoiceData.note && invoiceData.note.trim()) {
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text(translations.note, margin, yPosition);
+    yPosition += 7;
+    doc.setFont('helvetica', 'normal');
+    const noteLines = doc.splitTextToSize(invoiceData.note, pageWidth - 2 * margin);
+    doc.text(noteLines, margin, yPosition);
+    yPosition += noteLines.length * 6 + 6;
+  }
 
   // 页脚
   yPosition = pageHeight - 40;
