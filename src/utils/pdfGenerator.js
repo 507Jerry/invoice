@@ -410,7 +410,7 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   }
 
   // 页脚 - 调整位置避免与NOTE重叠，并与边缘保持距离
-  yPosition = Math.max(yPosition + 15, pageHeight - 80);
+  yPosition = Math.max(yPosition + 15, pageHeight - 100);
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
