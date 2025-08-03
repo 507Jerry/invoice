@@ -1,0 +1,359 @@
+/* 应用容器 */
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* 头部样式 */
+.app-header {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.app-header h1 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.preview-toggle-btn,
+.reset-btn,
+.generate-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.preview-toggle-btn {
+  background: #95a5a6;
+  color: white;
+}
+
+.preview-toggle-btn:hover {
+  background: #7f8c8d;
+}
+
+.reset-btn {
+  background: #e74c3c;
+  color: white;
+}
+
+.reset-btn:hover {
+  background: #c0392b;
+}
+
+.generate-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 700;
+}
+
+.generate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* 主要内容区域 */
+.app-main {
+  display: grid;
+  gap: 20px;
+  height: calc(100vh - 140px);
+}
+
+/* 桌面端布局 */
+.layout-desktop .app-main {
+  grid-template-columns: 1fr 1fr;
+}
+
+.layout-desktop .form-section {
+  height: 100%;
+  overflow: hidden;
+}
+
+.layout-desktop .preview-section {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 平板端布局 */
+.layout-tablet .app-main {
+  grid-template-columns: 1fr 1fr;
+}
+
+.layout-tablet .form-section {
+  height: 100%;
+  overflow: hidden;
+}
+
+.layout-tablet .preview-section {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 移动端布局 */
+.layout-mobile .app-main {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  height: auto;
+  min-height: calc(100vh - 140px);
+}
+
+.layout-mobile .form-section {
+  height: auto;
+  min-height: 400px;
+}
+
+.layout-mobile .preview-section {
+  height: 400px;
+  overflow: hidden;
+}
+
+/* 表单区域 */
+.form-section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* 预览区域 */
+.preview-section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* 移动端预览提示 */
+.mobile-preview-hint {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-preview-hint p {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.mobile-preview-hint button {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mobile-preview-hint button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* 响应式设计 */
+@media (max-width: 1199px) {
+  .app-container {
+    padding: 15px;
+  }
+  
+  .app-header {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .app-header h1 {
+    font-size: 24px;
+  }
+  
+  .header-actions {
+    gap: 8px;
+  }
+  
+  .preview-toggle-btn,
+  .reset-btn,
+  .generate-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 767px) {
+  .app-container {
+    padding: 10px;
+  }
+  
+  .app-header {
+    padding: 12px;
+    margin-bottom: 10px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .app-header h1 {
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  .header-actions {
+    justify-content: center;
+    gap: 6px;
+  }
+  
+  .preview-toggle-btn,
+  .reset-btn,
+  .generate-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    flex: 1;
+  }
+  
+  .app-main {
+    gap: 10px;
+    height: auto;
+  }
+  
+  .layout-mobile .preview-section {
+    height: 300px;
+  }
+}
+
+@media (max-width: 479px) {
+  .app-container {
+    padding: 5px;
+  }
+  
+  .app-header {
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+  
+  .app-header h1 {
+    font-size: 18px;
+  }
+  
+  .header-actions {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .preview-toggle-btn,
+  .reset-btn,
+  .generate-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+  
+  .app-main {
+    gap: 8px;
+  }
+  
+  .layout-mobile .preview-section {
+    height: 250px;
+  }
+  
+  .mobile-preview-hint {
+    padding: 15px;
+    margin-top: 10px;
+  }
+  
+  .mobile-preview-hint p {
+    font-size: 14px;
+  }
+  
+  .mobile-preview-hint button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+
+/* 滚动条样式 */
+.form-section::-webkit-scrollbar,
+.preview-section::-webkit-scrollbar {
+  width: 6px;
+}
+
+.form-section::-webkit-scrollbar-track,
+.preview-section::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.form-section::-webkit-scrollbar-thumb,
+.preview-section::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.form-section::-webkit-scrollbar-thumb:hover,
+.preview-section::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-section,
+.preview-section {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* 加载状态 */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: #7f8c8d;
+  font-size: 16px;
+}
+
+/* 错误状态 */
+.error {
+  background: #ffebee;
+  color: #c62828;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  border-left: 4px solid #c62828;
+} 
