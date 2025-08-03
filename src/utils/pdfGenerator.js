@@ -31,30 +31,33 @@ export const generatePDF = (invoiceData, translations) => {
   // Logo和发票标题
   if (company.logo) {
     try {
-      // 添加Logo（位置在发票标题左侧）
-      const logoWidth = 30;
-      const logoHeight = 20;
-      const logoX = margin;
-      const logoY = yPosition - 5;
+      // 添加Logo（位置在发票标题左侧，与标题中心线对齐）
+      const logoWidth = 25;
+      const logoHeight = 16;
+      const logoX = pageWidth - margin - 80; // 更靠近标题
+      
+      // 计算Logo的中心线位置，使其与INVOICE文字中心线对齐
+      // INVOICE文字的中心线在 yPosition，Logo的中心线应该在 logoY + logoHeight/2
+      const logoY = yPosition - (logoHeight / 2); // 使Logo中心线与文字中心线对齐
       
       doc.addImage(company.logo, 'JPEG', logoX, logoY, logoWidth, logoHeight);
       
-      // 发票标题位置调整（为Logo留出空间）
+      // 发票标题位置调整（与Logo中心线对齐，并与表格右对齐）
       doc.setFontSize(24);
       doc.setFont('helvetica', 'bold');
-      doc.text(translations.invoice, pageWidth - margin - 30, yPosition);
+      doc.text(translations.invoice, pageWidth - margin - 20, yPosition, { align: 'right' });
     } catch (logoError) {
       console.error('Logo添加失败:', logoError);
       // 如果Logo添加失败，正常显示标题
       doc.setFontSize(24);
       doc.setFont('helvetica', 'bold');
-      doc.text(translations.invoice, pageWidth - margin - 30, yPosition);
+      doc.text(translations.invoice, pageWidth - margin - 20, yPosition, { align: 'right' });
     }
   } else {
     // 没有Logo时正常显示标题
     doc.setFontSize(24);
     doc.setFont('helvetica', 'bold');
-    doc.text(translations.invoice, pageWidth - margin - 30, yPosition);
+    doc.text(translations.invoice, pageWidth - margin - 20, yPosition, { align: 'right' });
   }
   yPosition += 20;
 
@@ -101,7 +104,7 @@ export const generatePDF = (invoiceData, translations) => {
   }
 
   // 发票详情
-  const detailX = pageWidth - margin - 60;
+  const detailX = pageWidth - margin - 20; // 与表格右对齐
   const detailY = infoY;
   
   doc.setFontSize(10);
@@ -122,8 +125,9 @@ export const generatePDF = (invoiceData, translations) => {
 
   details.forEach((detail, index) => {
     const y = detailY + (index * 6);
-    doc.text(detail.label + ':', detailX, y);
-    doc.text(detail.value, detailX + 40, y);
+    // 使用右对齐方式显示详情信息
+    const fullText = `${detail.label}: ${detail.value}`;
+    doc.text(fullText, detailX, y, { align: 'right' });
   });
 
   yPosition = Math.max(infoY + 30, detailY + (details.length * 6) + 10);
@@ -384,25 +388,25 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   let yPosition = pageHeight - 80;
 
   // 总计
-  const totalX = pageWidth - margin - 60;
+  const totalX = pageWidth - margin - 20; // 与表格右对齐
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   
   if (includeGST) {
-    doc.text(`${translations.subtotal}:`, totalX, yPosition);
-    doc.text(formatCurrency(totals.subtotal), totalX + 40, yPosition, { align: 'right' });
+    const subtotalText = `${translations.subtotal}: ${formatCurrency(totals.subtotal)}`;
+    doc.text(subtotalText, totalX, yPosition, { align: 'right' });
     yPosition += 8;
     
-    doc.text(`${translations.gst} (${(gstRate * 100).toFixed(0)}%):`, totalX, yPosition);
-    doc.text(formatCurrency(totals.gst), totalX + 40, yPosition, { align: 'right' });
+    const gstText = `${translations.gst} (${(gstRate * 100).toFixed(0)}%): ${formatCurrency(totals.gst)}`;
+    doc.text(gstText, totalX, yPosition, { align: 'right' });
     yPosition += 8;
   }
   
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
-  doc.text(`${translations.total}:`, totalX, yPosition);
-  doc.text(formatCurrency(totals.total), totalX + 40, yPosition, { align: 'right' });
+  const totalText = `${translations.total}: ${formatCurrency(totals.total)}`;
+  doc.text(totalText, totalX, yPosition, { align: 'right' });
 
   // 页脚
   yPosition = pageHeight - 40;
@@ -426,7 +430,7 @@ const addTotalsAndFooter = (doc, totals, includeGST, gstRate, translations, page
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text(translations.thankYou, pageWidth - margin - 30, yPosition + 20, { align: 'right' });
+  doc.text(translations.thankYou, pageWidth - margin - 20, yPosition + 20, { align: 'right' });
 }; 
 
 /**
