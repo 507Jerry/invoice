@@ -64,6 +64,7 @@
 
 .panel--editor {
   overflow: auto;
+  min-width: 0;
 }
 
 .panel--preview {
@@ -72,6 +73,10 @@
 }
 
 .control {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
   border-radius: 10px;
   border: 1px solid rgba(148, 163, 184, 0.25);
   padding: 8px 10px;
@@ -83,6 +88,11 @@
 .control:focus {
   border-color: rgba(56, 189, 248, 0.8);
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+}
+
+textarea.control {
+  resize: vertical;
+  min-height: 60px;
 }
 
 .button {
@@ -125,6 +135,7 @@
   background: rgba(15, 23, 42, 0.35);
   border-radius: 12px;
   margin-bottom: 12px;
+  min-width: 0;
 }
 
 .editor__title {
@@ -140,14 +151,23 @@
 
 .grid2 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 10px;
+}
+
+.grid2 > * {
+  min-width: 0;
 }
 
 .field {
   display: grid;
   gap: 6px;
   margin-bottom: 10px;
+  min-width: 0;
+}
+
+.field__control {
+  min-width: 0;
 }
 
 .field__label {
@@ -158,26 +178,50 @@
 .items {
   display: grid;
   gap: 10px;
+  min-width: 0;
 }
 
 .items__head {
   display: grid;
-  grid-template-columns: 1fr 80px 110px 90px;
+  grid-template-columns: minmax(0, 1fr) minmax(56px, 80px) minmax(64px, 110px) minmax(64px, 90px);
   gap: 8px;
   font-size: 12px;
   color: rgba(226, 232, 240, 0.75);
 }
 
+.items__head > * {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .items__row {
   display: grid;
-  grid-template-columns: 1fr 80px 110px 90px;
+  grid-template-columns: minmax(0, 1fr) minmax(56px, 80px) minmax(64px, 110px) minmax(64px, 90px);
   gap: 8px;
+  align-items: center;
+}
+
+.items__row > * {
+  min-width: 0;
+}
+
+.items__row .button {
+  width: 100%;
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .logoRow {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   align-items: center;
+}
+
+.logoRow .control {
+  flex: 1 1 120px;
+  min-width: 0;
 }
 
 .totalsMini {
@@ -205,7 +249,18 @@
   }
   .items__head,
   .items__row {
-    grid-template-columns: 1fr 70px 100px 90px;
+    grid-template-columns: minmax(0, 1fr) minmax(52px, 70px) minmax(60px, 100px) minmax(64px, 90px);
+  }
+}
+
+/* 编辑区较窄时（如左侧栏 440px）让 Line Items 更紧凑，避免重叠 */
+@media (max-width: 520px) {
+  .items__head,
+  .items__row {
+    grid-template-columns: minmax(0, 1fr) minmax(48px, 1fr) minmax(56px, 1fr) auto;
+  }
+  .items__row .button {
+    width: auto;
   }
 }
 
