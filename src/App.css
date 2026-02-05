@@ -738,6 +738,166 @@ textarea.control {
   font-weight: 800;
 }
 
+/* ---------- Template: Blue Panel (MIA-like) ---------- */
+.tpl--bluePanel {
+  padding: 0 18px 18px;
+}
+
+.bluePanel__brandBar {
+  background: #0d4770;
+  color: #fff;
+  margin: 0 -18px;
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bluePanel__brandText {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+
+.bluePanel__brandLogo .logoMark {
+  background: #ffffff;
+}
+
+.bluePanel__topRow {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 24px;
+  padding: 20px 0 10px;
+  align-items: center;
+}
+
+.bluePanel__title {
+  font-size: 42px;
+  font-weight: 900;
+  color: #0d4770;
+  letter-spacing: 1px;
+}
+
+.bluePanel__infoBox {
+  border: 1px solid #0d4770;
+  padding: 10px 14px;
+  font-size: 12px;
+}
+
+.bluePanel__infoLine {
+  color: rgba(15, 23, 42, 0.85);
+}
+
+.bluePanel__tableWrap {
+  margin-top: 6px;
+}
+
+.tpl--bluePanel .itemsTable thead th {
+  background: #0d4770;
+  color: #fff;
+  border-bottom: none;
+}
+
+.tpl--bluePanel .itemsTable tbody tr:nth-child(odd) td {
+  background: #e5f2fa;
+}
+
+.tpl--bluePanel .itemsTable tbody tr:nth-child(even) td {
+  background: #f4f8fb;
+}
+
+.bluePanel__summaryRow {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.bluePanel__issued {
+  font-size: 12px;
+  color: rgba(15, 23, 42, 0.85);
+  display: grid;
+  gap: 6px;
+}
+
+.bluePanel__gstToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.bluePanel__gstBox {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.7);
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.bluePanel__gstLabel {
+  text-transform: none;
+}
+
+.bluePanel__totalBox {
+  border: 1px solid rgba(15, 23, 42, 0.8);
+  padding: 8px 10px;
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.bluePanel__currencyLabel {
+  font-weight: 800;
+  text-align: right;
+  color: #0d4770;
+}
+
+.bluePanel__amountLine {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.bluePanel__amountLine--strong {
+  font-weight: 900;
+}
+
+.bluePanel__amountLabel {
+  font-weight: 600;
+}
+
+.bluePanel__metaRow {
+  margin-top: 12px;
+  padding: 6px 10px;
+  border: 1px solid #0d4770;
+  font-size: 12px;
+  display: grid;
+  gap: 4px;
+}
+
+.bluePanel__bankBox {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px solid rgba(15, 23, 42, 0.8);
+}
+
+.bluePanel__footerNotes {
+  margin-top: 10px;
+  font-size: 11px;
+  color: rgba(15, 23, 42, 0.75);
+}
+
+@media (max-width: 900px) {
+  .bluePanel__topRow,
+  .bluePanel__summaryRow {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media print {
   .topBar,
   .panel--editor {

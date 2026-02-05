@@ -214,6 +214,7 @@ function App() {
               <option value="orange">Orange Header</option>
               <option value="blueFrame">Blue Frame</option>
               <option value="blueLine">Blue Line</option>
+              <option value="bluePanel">Blue Panel (MIA style)</option>
             </select>
           </label>
           <label className="topBar__label">

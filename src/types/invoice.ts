@@ -1,7 +1,7 @@
 /**
  * 支持的发票模板 ID。
  */
-export type InvoiceTemplateId = 'orange' | 'blueFrame' | 'blueLine'
+export type InvoiceTemplateId = 'orange' | 'blueFrame' | 'blueLine' | 'bluePanel'
 
 /**
  * 支持的货币代码（可按需扩展）。
